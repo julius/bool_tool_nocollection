@@ -6,7 +6,6 @@ from ..functions.poll import (
 )
 from ..functions.object import (
     object_visibility_set,
-    delete_empty_collection,
     delete_cutter,
     change_parent,
 )
@@ -174,14 +173,6 @@ class OBJECT_OT_boolean_remove_cutter(bpy.types.Operator):
                     if prefs.parent and cutter.parent in canvases:
                         change_parent(cutter, None)
 
-                    cutters_collection = bpy.data.collections.get("boolean_cutters")
-                    if cutters_collection in cutter.users_collection:
-                        bpy.data.collections.get("boolean_cutters").objects.unlink(cutter)
-
-            # purge_empty_collection
-            delete_empty_collection()
-
-
             # Change Leftover Cutter Parent
             if prefs.parent and leftovers != None:
                 for cutter in leftovers:
@@ -280,10 +271,6 @@ class OBJECT_OT_boolean_apply_cutter(bpy.types.Operator):
 
                 # Purge Orphaned Cutters
                 delete_cutter(cutter)
-
-            # purge_empty_collection
-            delete_empty_collection()
-
 
             # Change Leftover Cutter Parent
             if prefs.parent and leftovers != None:

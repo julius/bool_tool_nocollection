@@ -8,7 +8,6 @@ from ..functions.poll import (
 from ..functions.object import (
     convert_to_mesh,
     object_visibility_set,
-    delete_empty_collection,
     delete_cutter,
     change_parent,
 )
@@ -122,13 +121,6 @@ class OBJECT_OT_boolean_remove_all(bpy.types.Operator):
                 if prefs.parent and cutter.parent in canvases:
                     change_parent(cutter, None)
 
-                cutters_collection = bpy.data.collections.get("boolean_cutters")
-                if cutters_collection in cutter.users_collection:
-                    bpy.data.collections.get("boolean_cutters").objects.unlink(cutter)
-
-        # purge_empty_collection
-        delete_empty_collection()
-
 
         # Change Leftover Cutter Parent
         if prefs.parent:
@@ -204,10 +196,6 @@ class OBJECT_OT_boolean_apply_all(bpy.types.Operator):
             if cutter not in purged_cutters:
                 delete_cutter(cutter)
                 purged_cutters.append(cutter)
-
-        # purge_empty_collection
-        delete_empty_collection()
-
 
         # Change Leftover Cutter Parent
         if prefs.parent:
